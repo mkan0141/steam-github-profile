@@ -1,7 +1,12 @@
+const DOMAIN = process.env.VERCEL_DOMAIN;
+
+const NOT_FOUND_IMAGE_URL = `${DOMAIN}/assets/offline.png`;
+const STEAM_LOGO_IMAGE_URL = `${DOMAIN}/assets/steam-logo.svg`;
+
 const defaultTheme = (_gameTitle?: string, _imageUrl?: string) => {
   const hasPlayingGame = !!_gameTitle;
   const gameTitle = _gameTitle || "No Play Game";
-  const imageUrl = _imageUrl || "/offline.png";
+  const imageUrl = _imageUrl || NOT_FOUND_IMAGE_URL;
 
   const gameTitleTemplate =
     gameTitle.length <= 16
@@ -14,7 +19,7 @@ const defaultTheme = (_gameTitle?: string, _imageUrl?: string) => {
       <foreignObject width="320" height="246">
         <div xmlns="http://www.w3.org/1999/xhtml" class="container">
           <div class="game-detail">
-            <div class="status">Now Playing On <img class="steam-logo" src="/steam-logo.svg"></img></div>
+            <div class="status">Now Playing On <img class="steam-logo" src="${STEAM_LOGO_IMAGE_URL}"></img></div>
             <div class="title ${!hasPlayingGame && "no-game"}">${gameTitleTemplate}</div>
           </div>
           <img src="${imageUrl}" class="game-logo"></img>
