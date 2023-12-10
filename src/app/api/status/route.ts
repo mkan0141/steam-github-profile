@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
+import { ZodError, z } from "zod";
 
 import { THEME_LIST, generateSvg } from "@/themes";
 import { fetchPlayerSummary, fetchGameDetail } from "@/lib/steam";
@@ -24,8 +24,10 @@ export async function GET(request: NextRequest, response: NextResponse) {
     theme = themeValidator(searchParams.get("theme"));
     steamId = steamIdValidator(searchParams.get("steam_id"));
   } catch (err) {
-    const errorMessage = err.errors[0].message;
-    return new Response(`Bad Request. ${errorMessage}`, { status: 400 });
+    const errorMessage =
+      err instanceof ZodError ? `Bad Request. ${err.errors[0].message}` : "Bad Request.";
+
+    return new Response(errorMessage, { status: 400 });
   }
 
   const playerSummary = await fetchPlayerSummary(steamId);
