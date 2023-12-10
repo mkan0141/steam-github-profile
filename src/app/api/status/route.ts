@@ -15,14 +15,14 @@ export async function GET(request: Request, response: Response) {
 
   // not playing game
   if (!playerSummary.gameid) {
-    const svg = defaultTheme();
+    const svg = await defaultTheme();
 
     return new Response(svg, { headers: { "Content-Type": "image/svg+xml" } });
   }
 
   const gameDetail = await fetchGameDetail(playerSummary.gameid);
 
-  const svg = defaultTheme(gameDetail.name, gameDetail.header_image);
+  const svg = await defaultTheme(gameDetail.name, gameDetail.header_image);
 
   return new Response(svg, { headers: { "Content-Type": "image/svg+xml" } });
 }
