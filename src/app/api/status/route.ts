@@ -1,22 +1,31 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
-import { generateSvg } from "@/themes";
+import { THEME_LIST, generateSvg } from "@/themes";
 import { fetchPlayerSummary, fetchGameDetail } from "@/lib/steam";
 
-export async function GET(request: Request, response: Response) {
-  const { searchParams } = new URL(request.url);
+const themeValidator = (params: any) => {
+  return z.enum(THEME_LIST).parse(params);
+};
 
-  const theme = searchParams.get("theme") || "default";
-  const steamId = searchParams.get("steam_id");
+const steamIdValidator = (params: any) => {
+  return z
+    .string({ invalid_type_error: "'steam_id' is a required query parameter." })
+    .min(1, { message: "Invalid Steam ID. Please check your steam id." })
+    .parse(params);
+};
 
-  if (steamId === null) {
-    return NextResponse.json(
-      {
-        error:
-          "Please include the 'steam_id' in the query parameters. ex) https://xxxx.xxx.xxx/api/status&steam_id=${your steamId}",
-      },
-      { status: 500 }
-    );
+export async function GET(request: NextRequest, response: NextResponse) {
+  const searchParams = request.nextUrl.searchParams;
+
+  // validate query parameters
+  let theme, steamId;
+  try {
+    theme = themeValidator(searchParams.get("theme"));
+    steamId = steamIdValidator(searchParams.get("steam_id"));
+  } catch (err) {
+    const errorMessage = err.errors[0].message;
+    return new Response(`Bad Request. ${errorMessage}`, { status: 400 });
   }
 
   const playerSummary = await fetchPlayerSummary(steamId);

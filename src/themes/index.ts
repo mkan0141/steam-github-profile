@@ -3,10 +3,11 @@ import { imageOnlyTheme } from "./image-only";
 
 import { imageUrlToBase64Image } from "@/utils/image";
 
-type Theme = "default" | "imageOnly";
-
 const DOMAIN = process.env.VERCEL_DOMAIN;
 const NOT_FOUND_IMAGE_URL = `${DOMAIN}/assets/offline.png`;
+
+const THEME_LIST = ["default", "imageOnly"] as const;
+type Theme = (typeof THEME_LIST)[number];
 
 const generateSvg = async (
   theme: Theme,
@@ -29,4 +30,5 @@ const generateSvg = async (
   }
 };
 
-export { generateSvg };
+export { generateSvg, THEME_LIST };
+export type { Theme };
