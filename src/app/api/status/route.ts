@@ -4,6 +4,13 @@ import { ZodError, z } from "zod";
 import { THEME_LIST, Theme, generateSvg } from "@/themes";
 import { fetchPlayerSummary, fetchGameDetail } from "@/lib/steam";
 
+const RESPONSE_HEADER = {
+  "Content-Type": "image/svg+xml",
+  "Cache-Control": "max-age=60",
+  "CDN-Cache-Control": "max-age=300",
+  "Vercel-CDN-Cache-Control": "max-age=300",
+} as const;
+
 const QueryParamsValidator = z.object({
   steam_id: z
     .string({ invalid_type_error: "'steam_id' is a required query parameter." })
@@ -19,7 +26,7 @@ export async function GET(request: NextRequest) {
 
     const svg = await generateSteamCardSvg(steam_id, theme);
 
-    return new Response(svg, { headers: { "Content-Type": "image/svg+xml" } });
+    return new Response(svg, { headers: RESPONSE_HEADER });
   } catch (err) {
     const errorMessage =
       err instanceof ZodError ? `Bad Request. ${err.errors[0].message}` : "Bad Request.";
