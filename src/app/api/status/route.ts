@@ -21,7 +21,7 @@ export async function GET(request: NextRequest, response: NextResponse) {
   // validate query parameters
   let theme, steamId;
   try {
-    theme = themeValidator(searchParams.get("theme"));
+    theme = themeValidator(searchParams.get("theme") || "default");
     steamId = steamIdValidator(searchParams.get("steam_id"));
   } catch (err) {
     const errorMessage =
@@ -30,18 +30,19 @@ export async function GET(request: NextRequest, response: NextResponse) {
     return new Response(errorMessage, { status: 400 });
   }
 
-  const playerSummary = await fetchPlayerSummary(steamId);
+  const { gameid: gameId } = await fetchPlayerSummary(steamId);
+  const gameUrl = `https://store.steampowered.com/${gameId ? `app/${gameId}` : ""}`;
 
   // not playing game
-  if (!playerSummary.gameid) {
-    const svg = await generateSvg(theme);
+  if (!gameId) {
+    const svg = await generateSvg(theme, gameUrl);
 
     return new Response(svg, { headers: { "Content-Type": "image/svg+xml" } });
   }
 
-  const gameDetail = await fetchGameDetail(playerSummary.gameid);
+  const gameDetail = await fetchGameDetail(gameId);
 
-  const svg = await generateSvg(theme, gameDetail.name, gameDetail.header_image);
+  const svg = await generateSvg(theme, gameUrl, gameDetail.name, gameDetail.header_image);
 
   return new Response(svg, { headers: { "Content-Type": "image/svg+xml" } });
 }

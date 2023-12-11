@@ -11,6 +11,7 @@ type Theme = (typeof THEME_LIST)[number];
 
 const generateSvg = async (
   theme: Theme,
+  gameUrl: string,
   _gameTitle?: string | undefined,
   _imageUrl?: string | undefined
 ): Promise<string> => {
@@ -22,9 +23,9 @@ const generateSvg = async (
 
   switch (theme) {
     case "default":
-      return await defaultTheme({ gameTitle, gameImageBase64, hasPlayingGame });
+      return await defaultTheme({ gameUrl, gameTitle, gameImageBase64, hasPlayingGame });
     case "imageOnly":
-      return await imageOnlyTheme({ gameImageBase64 });
+      return await imageOnlyTheme({ gameUrl, gameImageBase64 });
     default:
       return "";
   }
