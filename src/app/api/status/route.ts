@@ -28,10 +28,12 @@ export async function GET(request: NextRequest) {
 
     return new Response(svg, { headers: RESPONSE_HEADER });
   } catch (err) {
-    const errorMessage =
-      err instanceof ZodError ? `Bad Request. ${err.errors[0].message}` : "Bad Request.";
+    if (err instanceof ZodError) {
+      return new Response(`Bad Request. ${err.errors[0].message}`, { status: 400 });
+    }
 
-    return new Response(errorMessage, { status: 400 });
+    console.error(err);
+    return new Response("Internal Server Error.", { status: 500 });
   }
 }
 
@@ -46,5 +48,5 @@ const generateSteamCardSvg = async (steamId: string, theme: Theme): Promise<stri
 
   const gameDetail = await fetchGameDetail(gameId);
 
-  return generateSvg(theme, gameUrl, gameDetail.name, gameDetail.header_image);
+  return generateSvg(theme, gameUrl, gameDetail);
 };

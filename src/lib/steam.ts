@@ -45,7 +45,7 @@ const fetchPlayerSummary = async (steamId: string): Promise<SteamPlayerSummary> 
   return data.response.players[0];
 };
 
-const fetchGameDetail = async (gameId: string): Promise<any> => {
+const fetchGameDetail = async (gameId: string): Promise<SteamGameSummary> => {
   const query = new URLSearchParams({ appids: gameId }).toString();
   const response = await fetch(`https://store.steampowered.com/api/appdetails?${query}`);
 
@@ -55,4 +55,5 @@ const fetchGameDetail = async (gameId: string): Promise<any> => {
   return data[gameId].data;
 };
 
+export type { SteamGameSummary };
 export { fetchPlayerSummary, fetchGameDetail };
