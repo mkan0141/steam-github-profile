@@ -4,10 +4,10 @@ A tool to generate steam now playing card on your github plofile. Inspired by [s
 
 ## Theme
 
-| default                                           | imageOnly                                         |
-| :---: | :---: |
-| <img src="https://raw.githubusercontent.com/mkan0141/steam-github-profile/main/images/defaultTheme.png" width="45%"> | <img src="https://raw.githubusercontent.com/mkan0141/steam-github-profile/main/images/imageOnlyTheme.png" width="45%"> |
-| [One Shot](https://store.steampowered.com/app/420530) |[アンリアルライフ](https://store.steampowered.com/app/1335560) |
+|                                                       default                                                        |                                                       imageOnly                                                        |                                                       compact                                                        |
+| :------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------: |
+| <img src="https://raw.githubusercontent.com/mkan0141/steam-github-profile/main/images/defaultTheme.png" width="30%"> | <img src="https://raw.githubusercontent.com/mkan0141/steam-github-profile/main/images/imageOnlyTheme.png" width="30%"> | <img src="https://raw.githubusercontent.com/mkan0141/steam-github-profile/main/images/compactTheme.png" width="30%"> |
+|                                [One Shot](https://store.steampowered.com/app/420530)                                 |                             [アンリアルライフ](https://store.steampowered.com/app/1335560)                             |                           [In Stars and Time](https://store.steampowered.com/app/1677310)                            |
 
 ## usage
 
