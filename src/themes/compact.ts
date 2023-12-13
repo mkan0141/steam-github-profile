@@ -26,6 +26,7 @@ const compactTheme = ({
         .outer-game-detail {
           display: block;
           height: 212px;
+          text-align: center;
           text-decoration: none;
         }
 
