@@ -1,0 +1,43 @@
+# ref: https://zenn.dev/odan/articles/94d9173da1eac2
+
+name: Try Auto Merge
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+jobs:
+  build-and-upload-artifact-on-main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/workflows/common/build-and-upload-artifact.yml
+        with:
+          branch: main
+          artifactName: ${{ github.sha }}-main
+
+  build-and-upload-artifact-on-topic:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/workflows/common/build-and-upload-artifact.yml
+        with:
+          branch: ""
+          artifactName: ${{ github.sha }}-topic
+
+  check-build-diff:
+    needs:
+      - build-and-upload-artifact-on-main
+      - build-and-upload-artifact-on-topic
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: ${{ github.sha }}-main
+          path: dist-main
+      - uses: actions/download-artifact@v3
+        with:
+          name: ${{ github.sha }}-current
+          path: dist-current
+
+      - id: diff-name-only
+        uses: gh640/command-result-action@v1
+        with:
+          command: diff -qr dist-main dist-current
