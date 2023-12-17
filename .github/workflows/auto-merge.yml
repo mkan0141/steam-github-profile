@@ -61,10 +61,10 @@ jobs:
           path: dist-main
       - uses: actions/download-artifact@v3
         with:
-          name: ${{ github.sha }}-current
+          name: ${{ github.sha }}-topic
           path: dist-current
 
       - id: diff-name-only
         uses: gh640/command-result-action@v1
         with:
-          command: diff -qr dist-main dist-current
+          command: diff -qr dist-main dist-topic
