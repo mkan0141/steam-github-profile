@@ -17,8 +17,8 @@ A tool to generate steam now playing card on your github plofile. Inspired by [s
 
 ## development
 
-- create `.env.local` file at project root and set `VERCEL_URL`, `STEAM_API_KEY`.
-  - `VERCEL_URL`
+- create `.env.local` file at project root and set `VERCEL_DOMAIN`, `STEAM_API_KEY`.
+  - `VERCEL_DOMAIN`
     - If you are developing in a local environment, please set `http://localhost:3000`
   - `STEAM_API_KEY`
     - [Get your API key by following the steam documentation here](https://steamcommunity.com/dev?l=japanese)
